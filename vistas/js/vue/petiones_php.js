@@ -1,0 +1,8 @@
+import class Peticiones{
+
+
+    constructor(){
+    }
+
+    
+}

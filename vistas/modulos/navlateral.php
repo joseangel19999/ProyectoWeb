@@ -9,7 +9,7 @@
 			<div class="full-box dashboard-sideBar-UserInfo">
 				<figure class="full-box">
 					<img src="<?php echo serverurl; ?>vistas/assets/avatars/TeacherMaleAvatar.png" alt="UserIcon">
-					<figcaption class="text-center user.pet">Administracion</figcaption>
+					<figcaption class="text-center user.pet">User: Administrador</figcaption>
 				</figure>
 				<ul class="full-box list-unstyled text-center">
 					<li>
@@ -27,10 +27,25 @@
 					</a>
 					<ul class="list-unstyled full-box">
 						<li>
-							<a href="<?php echo serverurl; ?>empleados" class="user.pet"><i class="zmdi zmdi-account zmdi-hc-fw"></i> Socursales</a>
+							<a href="<?php echo serverurl; ?>socursal" class="user.pet"><i class="zmdi zmdi-account zmdi-hc-fw"></i> Sucursales</a>
 						</li>
 						<li>
 							<a href="<?php echo serverurl; ?>prodserv" class="user.pet"><i class="zmdi zmdi-account zmdi-hc-fw"></i> Empleados</a>
+						</li>
+						<li>
+							<a href="<?php echo serverurl; ?>taxista" class="user.pet"><i class="zmdi zmdi-account zmdi-hc-fw"></i> MotoTaxistas</a>
+						</li>
+						<li>
+							<a href="<?php echo serverurl; ?>cliente" class="user.pet"><i class="zmdi zmdi-account zmdi-hc-fw"></i> Clientes</a>
+						</li>
+						<li>
+							<a href="<?php echo serverurl; ?>viajeslist" class="user.pet"><i class="zmdi zmdi-account zmdi-hc-fw"></i>Historial de Viajes</a>
+						</li>
+						<li>
+							<a href="<?php echo serverurl; ?>paquete" class="user.pet"><i class="zmdi zmdi-account zmdi-hc-fw"></i>Paqueteria</a>
+						</li>
+						<li>
+							<a href="<?php echo serverurl; ?>AdminFechas" class="user.pet"><i class="zmdi zmdi-account zmdi-hc-fw"></i>Admin fechas</a>
 						</li>
 					</ul>
 				</li>
@@ -49,6 +64,12 @@
 						</li>
 						<li>
 							<a href="<?php echo serverurl; ?>puesto" class="user.pet"><i class="zmdi zmdi-male-female zmdi-hc-fw"></i>Puestos</a>
+						</li>
+						<li>
+							<a href="<?php echo serverurl; ?>destino" class="user.pet"><i class="zmdi zmdi-male-female zmdi-hc-fw"></i>Destinos</a>
+						</li>
+						<li>
+							<a href="<?php echo serverurl; ?>tipoPaquete" class="user.pet"><i class="zmdi zmdi-male-female zmdi-hc-fw"></i>Tipo Paquetes</a>
 						</li>
 					</ul>
 		</div>

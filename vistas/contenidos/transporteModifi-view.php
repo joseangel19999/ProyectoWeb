@@ -1,7 +1,7 @@
 <script src="<?php echo serverurl; ?>vistas/js/notify.js"></script>
 <div class="container-fluid">
 	<div class="page-header">
-		<div class="text-t full-box text-uppercase">CATALOGO DE SOCURSALES</div>
+		<div class="text-t full-box text-uppercase">CATALOGO DE TRANSPORTES</div>
 	</div>
 </div>
 
@@ -26,7 +26,7 @@
 	<div class="container-fluid">
 		<div class="panel panel-info">
 			<div class="panel-heading">
-				<h3 class="panel-title"><i class="zmdi zmdi-plus ico"></i> &nbsp;MODIFICAR DATOS DE SOCURSAL</h3>
+				<h3 class="panel-title"><i class="zmdi zmdi-plus ico"></i> &nbsp;MODIFICAR DATOS DE TRANSPORTE</h3>
 			</div>
 			<div class="panel-body">
 				<form action="<?php echo serverurl; ?>ajax/administradorAja.php" id="form-input" method="POST" data-form="" class="FormularioAjax" autocomplete="off" enctype="multipart/form-data">
@@ -42,12 +42,14 @@
 								<div class="col-xs-12 col-sm-4">
 									<div class="form-group label-floating">
 										<label>Marca</label>
-										<input pattern="[0-9-]{1,30}" v-model="Nombre" class="form-control" type="text" name="dni-reg" required="" maxlength="30">
+										<input pattern="[0-9-]{1,30}" v-model="Marca" class="form-control" type="text" name="dni-reg" required="" maxlength="30">
 									</div>
 								</div>
 								<div class="col-xs-12 col-sm-4">
-								</div>
-								<div class="col-xs-12 col-sm-4">
+									<div class="form-group label-floating">
+										<label>Nombre</label>
+										<input pattern="[0-9-]{1,30}" v-model="Nombre" class="form-control" type="text" name="dni-reg" required="" maxlength="30">
+									</div>
 								</div>
 								<div class="col-xs-12 col-sm-4">
 									<div class="form-group label-floating">

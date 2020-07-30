@@ -1,21 +1,21 @@
 <?php
 if ($peticionAjax) {
-    require_once "../core/mainModel.php";
+    require_once "../modelo/interfaces/InterfaceLogin.php";
 } else {
-    require_once "./core/mainModel.php";
+    require_once "./modelo/interfaces/InterfaceLogin.php";
 }
+require_once "conexionBd.php";
+class LoginModelo implements InterfaceLogin {
 
-class LoginModelo extends mainModel{
-
-    protected function iniciar_session_modelo($datos)
+    function Iniciar_Session($datos)
     {
-        $sql = mainModel::conectar()->prepare("SELECT * FROM vwUsuarios WHERE vchUsuario =:user AND vchPassword=:passw");
+        $conectarBd = Conexion::getInstancia();
+        $sql = $conectarBd->prepare("SELECT * FROM ViewloginAcceso WHERE vchUsuario =:user");
         $sql->bindParam(':user',$datos['usuario']);
-        $sql->bindParam(':passw',$datos['password']);
         $sql->execute();
         return $sql;
     }
-    protected function cerrarSession_modelo($datos){
+    function Cerrar_Session($datos){
         $respuesta="false";
         if($datos['Token_S']==$datos['Token']){
             session_unset();

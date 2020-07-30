@@ -1,5 +1,5 @@
 <?php
-class Conexion{
+class Conexion {
     //conecion estatico
     private static $instancia = null;
     //funcion que conecta la base de datos

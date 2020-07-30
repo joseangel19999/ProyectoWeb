@@ -1,20 +1,35 @@
 import {datos} from "../validar/validacion.js";
 (()=>{
     var serverurl="jsaxios/prodserv/CrudProd.php";
+    var UrlPeticionesAjax="ajax/EmpleadoAjax.php";
     var app = new Vue({
-   el:'#AppModifi',
+   el:'#AppProd',
    data:{
        nameapp:'tarea vue.js',
        ProdServ:[],
+       seleccione:'-Seleccione-',
        ListaCate:[],
-       Id_P:'',
-       Nombre_P:'',
-       Precio_P:'',
-       Desc_P:'',
-       Id_P:'',
-       Imagen_P:'',
-       Imagen_P2:'',
+       ListaDatos:[],
+       listaCateArea:[],
+       nomSocursal:'',
+       IdCateSocursal:'',
+       Id:'',
+       iss:'3',
+       IdCatePuesto:'',
+       idcate2:'',
+       Nombre:'',
+       Apellidos:'',
+       Telefono:'',
+       Direccion:'',
+       Correo:'',
+       Usuario:'',
+       NombrePuesto:'',
+       Password1:'',
+       Password2:'',
+       IdCateArea:'',
+       nomCateArea:'',
        cate:'',
+       miMapa:null,
        NomPuesto:''
    },
    methods:{
@@ -27,7 +42,7 @@ import {datos} from "../validar/validacion.js";
                 cancelButtonColor: '#F44336',
                 confirmButtonText: ' OK...'
             }).then(function () {
-                window.location.href="http://localhost/pet/PET/prodservlist";
+                window.location.href="http://localhost/ProyectMoto/Moto-Taxi/prodservlist";
             });
        },
        Validar:function(){
@@ -37,28 +52,27 @@ import {datos} from "../validar/validacion.js";
            this.ProdServ[3]=this.Imagen_P;
        },
        ConvertFormData:function(){
-        let _this=this;
-        var serverurl="jsaxios/prodserv/ModifiProd.php";
+        var _this=this;
         var parametros=new FormData($("#form-input")[0]);
-        if(this.Imagen_P!=this.Imagen_P2){
-            this.Imagen_P=this.Imagen_P2;
-        }
-        parametros.append('Img',this.Imagen_P);
-        parametros.append('Id',this.Id_P);
-        axios.post(serverurl,parametros).then(function(response){
-            _this.Msconfirmacion();
+        parametros.append('Opc','2');
+        parametros.append('IdEmp',_this.Id);
+        axios.post(UrlPeticionesAjax,parametros).then(function(response){
+            if(response.data>=0){
+                _this.Msconfirmacion();
+            }
         }).catch(function(error){
             alert("Error "+error);
         })
-    },
-    Modificar:function(e){
+       },
+       Modificar:function(e){
            e.preventDefault(e);
+           this.ConvertFormData();
            //let img=document.getElementById("foto").value;
              
            /*let img=document.getElementById("foto").value;
            alert(" imagen r "+img);*/
-           let formulario=document.getElementById("form-input");
-           let cm=document.getElementById("combo").value;
+          /* let formulario=document.getElementById("form-input");
+           let cm=document.getElementById("combo").options[select.selectedIndex];
            let mensaje=datos(formulario,cm,2);
            if(mensaje==true){
             alert("peticiones 22");
@@ -80,42 +94,90 @@ import {datos} from "../validar/validacion.js";
                 $.notify("Selecione El tipo de Puesto");
                 } 
             }else{
-                $.notify("Campos vacios");
+                $.notirefy("Campos vacios");
             }  */
        },
-       Cargarcombo:function(){
+       modificarEmpleado:function(e){
+        e.preventDefault(e);
+        let _this=this;
+        let cmPuesto=document.getElementById("combo").value;
+        let cmArea=document.getElementById("comboArea").value;
+        let cmASocursal=document.getElementById("comboSocursal").value;
+            //console.log(this.miMapa.get("jose"));
+            if(cmPuesto==this.seleccione){
+                alert("seleccione combo ");
+            }else{
+                if(cmArea==this.seleccione){
+                    alert("seleccione combo area ");
+                }else{
+                    _this.ConvertFormData();
+                }
+            }
+        },
+       CosultaDatos:function(){
+            var datafromlocal=JSON.parse(localStorage.getItem("data"));
+            this.Id=datafromlocal.Id;
+            this.IdCatePuesto=datafromlocal.Id;
+            this.idcate2=datafromlocal.Idcate;
+            this.NomPuesto=datafromlocal.nomPuesto;
+            this.IdCateArea=datafromlocal.IdArea;
+            this.nomCateArea=datafromlocal.nomArea;
+            this.nomSocursal=datafromlocal.nomSocursal,
+            this.IdCateSocursal=datafromlocal.IdSocursal
+        },
+        CosultaDatosEmpleado:function(){
             let formato= new FormData();
             let _this=this;
-            formato.append('Opc',"5");
-            axios.post(serverurl,formato).then(function(response){
-                _this.ListaCate=response.data;
-                _this.ListaCate[2]={"vchIdcategoria":"0","vchNombre":"Elige Categoria"};
+            formato.append('Opc',"10");
+            formato.append('Id',_this.Id);
+            axios.post(UrlPeticionesAjax,formato).then(function(response){
+                console.log(response.data);
+                _this.IdCate=response.data[0].chIdPuesto;
+                _this.ListaDatos=response.data;
             }).catch(function(error){
                 alert("Error "+error);
             })
-       },
-       CosultaDatos:function(){
-            var datafromlocal=JSON.parse(localStorage.getItem("data"));
-            this.Id_P=datafromlocal.Id;
-            this.Nombre_P=datafromlocal.Nombre;
-            this.Precio_P=datafromlocal.Precio;
-            this.Desc_P=datafromlocal.Desc;
-            this.cate=datafromlocal.Idcate;
-            this.Imagen_P=datafromlocal.Imagen;
-           
-            this.Imagen_P2=datafromlocal.Imagen;
-            if(this.cate==1){
-                this.NomPuesto="Servicio"
-            }
-            else if(this.cate==2){
-                this.NomPuesto="Productos"
-            }  
-            console.log(datafromlocal);
         },
+        CargarcomboPuesto:function(){
+            this.miMapa= new Map();
+            let formato= new FormData();
+            let _this=this;
+            formato.append('Opc',"5");
+            formato.append('Idcate',_this.idcate2);
+            axios.post(serverurl,formato).then(function(response){
+                _this.ListaCate=response.data;
+               /* alert(response.data.length);
+                if(response.data.length>=0){
+                    alert();
+                    for(let i=0;i<response.data.length;i++){
+                        _this.miMapa.set(response.data[i].vchNomPuesto,response.data[i].chIdPuesto);
+                    }
+                    _this.miMapa.set(_this.NomPuesto,_this.idcate2);
+                    
+                }*/
+                //_this.ListaCate[2]={"vchIdcategoria":"0","vchNombre":"Elige Categoria"};
+            }).catch(function(error){
+                alert("Error "+error);
+            })
+       }, CargarcomboArea:function(){
+        this.miMapa= new Map();
+        let formato= new FormData();
+        let _this=this;
+        formato.append('Opc',"8");
+        formato.append('Idarea',_this.IdCateArea);
+        axios.post(serverurl,formato).then(function(response){
+            _this.listaCateArea=response.data;
+            //_this.ListaCate[2]={"vchIdcategoria":"0","vchNombre":"Elige Categoria"};
+        }).catch(function(error){
+            alert("Error "+error);
+        })
+   },
     },
    mounted:function(){
     this.CosultaDatos();
-    this.Cargarcombo();
+    this.CosultaDatosEmpleado();
+    this.CargarcomboPuesto();
+    this.CargarcomboArea();
    }
 })
 })();

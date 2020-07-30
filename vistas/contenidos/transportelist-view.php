@@ -35,6 +35,7 @@
 								<tr>
 									<th class="text-center">ClAVE</th>
 									<th class="text-center">MARCA</th>
+									<th class="text-center">NOMBRE MOTO-TAXI</th>
 									<th class="text-center">PLACA</th>
 								</tr>
 							</thead>
@@ -42,6 +43,7 @@
 							<tr v-for="(Empleado,index) in EmpleadoLista">
 								<td >{{Empleado.intIdMotoTaxi}}</td>
 								<td >{{Empleado.vchMarca}}</td>
+								<td >{{Empleado.vchNombre}}</td>
 								<td >{{Empleado.vchPlaca}}</td>
 									<td>
 										<a  v-on:click="Modi(index)" class="btn btn-success btn-raised btn-xs">

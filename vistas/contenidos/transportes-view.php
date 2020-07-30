@@ -39,17 +39,23 @@
 										  	<label class="control-label">DNI</label>
 										  	<input pattern="[0-9-]{1,30}" class="form-control"  v-model="Empleado[0]"  type="text" name="Dni" maxlength="30">
 										</div>
+									</div>
+									<div class="col-xs-12 col-sm-4">
+								    	<div class="form-group label-floating">
+										  	<label class="control-label">Nombre/Numero</label>
+										  	<input pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,30}" v-model="Empleado[1]" class="form-control" type="text" name="Nombre" required="" maxlength="30">
+										</div>
 				    				</div>
 									<div class="col-xs-12 col-sm-4">
 								    	<div class="form-group label-floating">
 										  	<label class="control-label">Marca</label>
-										  	<input pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,30}" v-model="Empleado[1]" class="form-control" type="text" name="Apellido" required="" maxlength="30">
+										  	<input pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,30}" v-model="Empleado[2]" class="form-control" type="text" name="Apellido" required="" maxlength="30">
 										</div>
 				    				</div>
 				    				<div class="col-xs-12 col-sm-4">
 										<div class="form-group label-floating">
 										  	<label class="control-label">Placa</label>
-										  	<input pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,30}" v-model="Empleado[2]" class="form-control" type="text" name="Apellido" required="" maxlength="30">
+										  	<input pattern="[a-zA-ZáéíóúÁÉÍÓÚñÑ ]{1,30}" v-model="Empleado[3]" class="form-control" type="text" name="Apellido" required="" maxlength="30">
 										</div>
 				    				</div>
 									<div >
@@ -70,4 +76,4 @@
 </div>
 <script src="jsaxios/axios.js"></script>
 <script src="jsaxios/vue.js"></script>
-<script type="module" src="jsaxios/transporte/Ope_vueEmpleado.js"></script>
+<script type="module" src="jsaxios/transporte/Ope_vueTranporte.js"></script>

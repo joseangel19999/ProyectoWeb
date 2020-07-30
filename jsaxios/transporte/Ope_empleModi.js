@@ -1,6 +1,6 @@
 import {ValidaFrm1} from "../validar/validacion.js";
 (()=>{
-    var serverurl="jsaxios/transporte/Crud.php";
+    var UrlPeticionesAjax="ajax/transportesAjax.php";
     var app = new Vue({
    el:'#AppModiE',
    data:{
@@ -8,6 +8,7 @@ import {ValidaFrm1} from "../validar/validacion.js";
        EmpleadoLista:[],
        ListaValida:[],
        Curp:'',
+       Marca:'',
        Nombre:'',
        Dire:'',
        Telefono:'',
@@ -23,7 +24,7 @@ import {ValidaFrm1} from "../validar/validacion.js";
             cancelButtonColor: '#F44336',
             confirmButtonText: ' OK...'
          }).then(function () {
-            window.location.href="http://localhost/pet/PET/transportelist";
+            window.location.href="http://localhost/ProyectMoto/Moto-Taxi/transportelist";
         });
        },
         ConvertFormData:function(id){
@@ -31,9 +32,10 @@ import {ValidaFrm1} from "../validar/validacion.js";
         let _this=this;
         formato.append('Id',this.Curp);
         formato.append('Marca',this.Nombre);
+        formato.append("Nombre",this.Nombre);
         formato.append('Placa',this.Direccion);
-        formato.append('Opc',"4");
-        axios.post(serverurl,formato).then(function(response){
+        formato.append('Opc',"2");
+        axios.post(UrlPeticionesAjax,formato).then(function(response){
             if(response.data=='1'){
              _this.Msconfirmacion();
             }
@@ -59,7 +61,8 @@ import {ValidaFrm1} from "../validar/validacion.js";
        CosultaDatos:function(){
         var datafromlocal=JSON.parse(localStorage.getItem("data"));
         this.Curp=datafromlocal.Id;
-        this.Nombre=datafromlocal.Marca;
+        this.Marca=datafromlocal.Marca;
+        this.Nombre=datafromlocal.Nombre;
         this.Direccion=datafromlocal.Placa; 
     }
    },

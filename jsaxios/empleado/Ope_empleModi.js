@@ -1,8 +1,8 @@
 import {ValidaFrm1} from "../validar/validacion.js";
 (()=>{
-    var serverurl="jsaxios/empleado/Crud.php";
+    var UrlPeticionesAjax="ajax/socursalAjax.php";
     var app = new Vue({
-   el:'#AppModiE',
+   el:'#app',
    data:{
        nameapp:'tarea vue.js',
        EmpleadoLista:[],
@@ -23,7 +23,7 @@ import {ValidaFrm1} from "../validar/validacion.js";
             cancelButtonColor: '#F44336',
             confirmButtonText: ' OK...'
          }).then(function () {
-            window.location.href="http://localhost/pet/PET/empleadolist";
+            window.location.href="http://localhost/ProyectMoto/Moto-Taxi/socursallist";
         });
        },
         ConvertFormData:function(id){
@@ -34,8 +34,8 @@ import {ValidaFrm1} from "../validar/validacion.js";
         formato.append('Direccion',this.Direccion);
         formato.append('Telefono',this.Telefono);
         formato.append('Correo',this.Correo);
-        formato.append('Opc',"4");
-        axios.post(serverurl,formato).then(function(response){
+        formato.append('Opc',"2");
+        axios.post(UrlPeticionesAjax,formato).then(function(response){
             if(response.data=='1'){
              _this.Msconfirmacion();
             }
@@ -52,8 +52,6 @@ import {ValidaFrm1} from "../validar/validacion.js";
     },
         Modificar:function(e){
            e.preventDefault(e);
-           this.Validacion();
-           let che=false;
            let formulario=document.getElementById("form-input");
            let mensaje=ValidaFrm1(formulario);
            if(mensaje==true){
@@ -71,7 +69,7 @@ import {ValidaFrm1} from "../validar/validacion.js";
    },
    mounted:function(){
     this.CosultaDatos();
-    this.CargarCombo();
+   
    }
 })
 })();

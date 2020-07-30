@@ -23,13 +23,11 @@
 	</div>
 </div>
 <?php
-
 	if(isset($_POST['Usuario']) && isset($_POST['Password'])){
 		require_once "./controlador/loginControlador.php";
 		$login= new LoginControlador();
 		echo $login->iniciar_session_controlador();
 	}
-
 ?>
 <script src="jsaxios/axios.js"></script>
 <script src="jsaxios/vue.js"></script>

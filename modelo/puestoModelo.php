@@ -4,56 +4,57 @@ if ($peticionAjax) {
 } else {
 	require_once "./core/mainModel.php";
 }
+require_once "conexionBd.php";
 require_once "../vo/objPuesto.php";
 class puestoModelo extends mainModel
 {
 	protected function agregar_Puesto($datos)
 	{
+		$conectarBd = Conexion::getInstancia();
 		$Id =    $datos->getId();
         $Nombre= $datos->getNombrePuesto();
         $Salario=$datos->getSalario();
 		$Desc =  $datos->getDescriocion();
-		$sql = mainModel::conectar()->prepare("INSERT INTO tblpuesto(chIdPuesto,vchNomPuesto,fltSalario,vchDescPuesto) VALUES(:id,:nombre,:salario,:descripcion);");
-        $sql->bindParam(":id", $Id);
-        $sql->bindParam(":salario", $Salario);
-		$sql->bindParam(":nombre", $Nombre);
-		$sql->bindParam(":descripcion", $Desc);
+		$query="call SpInsertPuesto(?,?,?,?)";
+		$sql =$conectarBd->prepare($query);
+        $sql->bindValue(1,$Id,PDO::PARAM_STR);
+        $sql->bindValue(2,$Nombre,PDO::PARAM_STR);
+		$sql->bindValue(3,$Salario,PDO::PARAM_STR);
+		$sql->bindValue(4,$Desc,PDO::PARAM_STR);
 		$sql->execute();
 		return $sql;
 	}
 	protected function modificar_Puesto($datos)
 	{
+		$conectarBd = Conexion::getInstancia();
 		$Id =    $datos->getId();
         $Nombre= $datos->getNombrePuesto();
         $Salario=$datos->getSalario();
 		$Desc =  $datos->getDescriocion();
-		$sql = mainModel::conectar()->prepare("UPDATE tblpuesto SET vchNomPuesto=:nombre,fltSalario=:salario,vchDescPuesto=:descripcion WHERE chIdPuesto=:id");
-		$sql->bindParam(":id", $Id);
-        $sql->bindParam(":nombre",$Nombre);
-        $sql->bindParam(":salario",$Salario);
-		$sql->bindParam(":descripcion", $Desc);
+		$query="call SpUpdatePuesto(?,?,?,?);";
+		$sql =$conectarBd->prepare($query);
+        $sql->bindValue(1,$Id,PDO::PARAM_STR);
+        $sql->bindValue(2,$Nombre,PDO::PARAM_STR);
+		$sql->bindValue(3,$Salario,PDO::PARAM_STR);
+		$sql->bindValue(4,$Desc,PDO::PARAM_STR);
 		$sql->execute();
 		return $sql;
 	}
 	protected function eliminar_Puesto($datos)
 	{
-		$Id = $datos->getId();
-		$sql = mainModel::conectar()->prepare("DELETE FROM tblpuesto WHERE chIdPuesto=:id");
-		$sql->bindParam(":id",$Id);
+		$conectarBd = Conexion::getInstancia();
+		$Id =    $datos->getId();
+		$query="call SpDeletePuesto(?);";
+		$sql =$conectarBd->prepare($query);
+        $sql->bindValue(1,$Id,PDO::PARAM_STR);
 		$sql->execute();
 		return $sql;
 	}
 	protected function consulta_Puesto()
 	{
-		$AreaT = array();
 		$sql = mainModel::conectar()->prepare("SELECT chIdPuesto,vchNomPuesto,fltSalario,vchDescPuesto FROM  tblpuesto");
 		$sql->execute();
-		if ($sql) {
-			foreach ($sql as $row) {
-				$AreaT[] = $this->recordsetToUserObject($row);
-			}
-			return $AreaT;
-		}
+		return $sql;
 	}
 
 	private function recordsetToUserObject($row)

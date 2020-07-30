@@ -7,49 +7,54 @@ if ($peticionAjax) {
 require_once "../vo/objectArea.php";
 class areaModelo extends mainModel
 {
+	private $ClsConexion;
+	public function __construct($Clsconecion)
+	{
+		$this->ClsConexion=$Clsconecion;	
+	}
 	protected function agregar_areaTrabajo($datos)
 	{
+		$conectarBd =$this->ClsConexion::getInstancia();
 		$Id =    $datos->getId();
 		$Nombre= $datos->getNombreArea();
 		$Desc =  $datos->getDescriocion();
-		$sql = mainModel::conectar()->prepare("INSERT INTO tblareatrabajo(chIdArea,vchNomArea,vchDescripcion) VALUES(:id,:nombre,:descripcion);");
-		$sql->bindParam(":id", $Id);
-		$sql->bindParam(":nombre", $Nombre);
-		$sql->bindParam(":descripcion", $Desc);
+		$query="call InsertAreaEmpl(?,?,?)";
+		$sql =$conectarBd->prepare($query);
+        $sql->bindValue(1,$Id,PDO::PARAM_STR);
+        $sql->bindValue(2,$Nombre,PDO::PARAM_STR);
+		$sql->bindValue(3,$Desc,PDO::PARAM_STR);
 		$sql->execute();
 		return $sql;
 	}
 	protected function modifica_areaTrabajo($datos)
 	{
+		$conectarBd =$this->ClsConexion::getInstancia();
 		$Id =    $datos->getId();
 		$Nombre= $datos->getNombreArea();
 		$Desc =  $datos->getDescriocion();
-		$sql = mainModel::conectar()->prepare("UPDATE tblareatrabajo SET vchNomArea=:nombre,vchDescripcion=:descripcion WHERE chIdArea=:id");
-		$sql->bindParam(":id", $Id);
-		$sql->bindParam(":nombre",$Nombre);
-		$sql->bindParam(":descripcion", $Desc);
+		$query="call SpUpdateAreaTrabajo(?,?,?)";
+		$sql =$conectarBd->prepare($query);
+        $sql->bindValue(1,$Id,PDO::PARAM_STR);
+        $sql->bindValue(2,$Nombre,PDO::PARAM_STR);
+		$sql->bindValue(3,$Desc,PDO::PARAM_STR);
 		$sql->execute();
 		return $sql;
 	}
 	protected function eliminar_areaTrabajo($datos)
 	{
-		$Id = $datos->getId();
-		$sql = mainModel::conectar()->prepare("DELETE FROM tblareatrabajo WHERE chIdArea=:id");
-		$sql->bindParam(":id",$Id);
+		$conectarBd =$this->ClsConexion::getInstancia();
+		$Id =    $datos->getId();
+		$query="call SpDeleteAreaTrabajo(?);";
+		$sql =$conectarBd->prepare($query);
+        $sql->bindValue(1,$Id,PDO::PARAM_STR);
 		$sql->execute();
 		return $sql;
 	}
 	protected function consulta_areaTrabajo()
 	{
-		$AreaT = array();
 		$sql = mainModel::conectar()->prepare("SELECT chIdArea,vchNomArea,vchDescripcion FROM  tblareatrabajo");
 		$sql->execute();
-		if ($sql) {
-			foreach ($sql as $row) {
-				$AreaT[] = $this->recordsetToUserObject($row);
-			}
-			return $AreaT;
-		}
+		return $sql;
 	}
 
 	private function recordsetToUserObject($row)

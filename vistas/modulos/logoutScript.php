@@ -17,7 +17,7 @@
                     url:'<?php echo serverurl; ?>ajax/loginAjax.php?Token='+Token,
                     success:function(response){
                         if(response=="true"){
-                            window.location.href = "http://localhost/MVC_PROJECT/app_moto/";
+                            window.location.href = "http://localhost/ProyectMoto/";
                         }else{
                             swal(
                                 "Ocurrio un Errror",

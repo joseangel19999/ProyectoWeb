@@ -4,6 +4,7 @@ class Mototaxi{
      // Atributos
      private $Id;
      private $Marca;
+     private $Nombre;
      private $Placa;
 
      //Contructor vacio
@@ -25,6 +26,13 @@ class Mototaxi{
     }
     public function getMarca(){
         return $this->Marca;
+    }
+    public function setNombre($nombre){
+        $this->Nombre=$nombre;
+    }
+
+    public function getNombre(){
+        return $this->Nombre;
     }
 
     public function setPlaca($Placa){

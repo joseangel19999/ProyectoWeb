@@ -1,5 +1,5 @@
 (()=>{
-    var serverurl="jsaxios/transporte/Crud.php";
+    var UrlPeticionesAjax="ajax/transportesAjax.php";
     var app = new Vue({
    el:'#AppLista',
    data:{
@@ -33,7 +33,7 @@
                 let _this=this;
                 formato.append("Opc",'3');
                 formato.append("Id",id);
-                axios.post(serverurl,formato).then(function(response){
+                axios.post(UrlPeticionesAjax,formato).then(function(response){
                     alert(response.data);
                     if(response.data=='1'){
                         _this.Confirmacion();
@@ -52,7 +52,7 @@
             formato.append('Opc','4');
             axios.post(serverurl,formato).then(function(response){
              alert("MODIFICACION EXITOSO");
-             window.location.href="http://localhost/pet/PET/transportelist";
+             window.location.href="http://localhost/ProyectMoto/Moto-Taxi/transportelist";
             }).catch(function(error){
                 alert("Error "+error);
             })
@@ -61,10 +61,11 @@
             var data={
                 "Id":this.EmpleadoLista[index].intIdMotoTaxi,
                 "Marca":this.EmpleadoLista[index].vchMarca,
+                "Nombre":this.EmpleadoLista[index].vchNombre,
                 "Placa":this.EmpleadoLista[index].vchPlaca,
             }
             localStorage.setItem("data",JSON.stringify(data));
-            window.location.href="http://localhost/pet/PET/transporteModifi";
+            window.location.href="http://localhost/ProyectMoto/Moto-Taxi/transporteModifi";
         },
         Modi:function(dato){
             let _this=this;
@@ -74,8 +75,9 @@
        CosultaDatos:function(){
         let formato= new FormData();
         let _this=this;
-        formato.append('Opc',"5");
-        axios.post(serverurl,formato).then(function(response){
+        formato.append('Opc',"10");
+        axios.post(UrlPeticionesAjax,formato).then(function(response){
+            console.log(response.data);
            _this.EmpleadoLista=response.data;
         }).catch(function(error){
             alert("Error "+error);

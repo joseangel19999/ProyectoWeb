@@ -1,5 +1,6 @@
 import {ValidaFrm1} from "../validar/validacion.js";
 (()=>{
+    let serverurl="ajax/areaAjax.php";
     var app = new Vue({
    el:'#app',
    data:{
@@ -26,7 +27,6 @@ import {ValidaFrm1} from "../validar/validacion.js";
        },
        ConvertFormData:function(){
         let formato= new FormData();
-        let serverurl="ajax/areaAjax.php";
         let _this=this;
         formato.append('Id',this.Empleado[0]);
         formato.append('NombreArea',this.Empleado[1]);
@@ -47,21 +47,9 @@ import {ValidaFrm1} from "../validar/validacion.js";
            if(mensaje==true){
                 this.ConvertFormData();
             }
-       },
-       CosultaDatos:function(){
-           /* let formato= new FormData();
-            let serverurl="jsaxios/empleado/Crud.php";
-            let _this=this;
-            formato.append('Opc',"2");
-            axios.post(serverurl,formato).then(function(response){
-                _this.ListaPuesto=response.data;
-            }).catch(function(error){
-                alert("Error "+error);
-            })*/
-       },
+       }
    },
    mounted:function(){
-       // this.CosultaDatos();
    }
 })
 })();

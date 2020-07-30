@@ -1,5 +1,4 @@
 (()=>{
-    var serverurl="jsaxios/area_trabajo/Crud.php";
     var serverurlAjax="ajax/areaAjax.php";
     var UrlArea="http://localhost/ProyectMoto/Moto-Taxi/"
     var app = new Vue({
@@ -76,9 +75,8 @@
        CosultaDatos:function(){
         let formato= new FormData();
         let _this=this;
-        formato.append('Opc',"5");
-        axios.post(serverurl,formato).then(function(response){
-            console.log(response.data);
+        formato.append('Opc',"2");
+        axios.post(serverurlAjax,formato).then(function(response){
              _this.EmpleadoLista=response.data;
         }).catch(function(error){
             alert("Error "+error);

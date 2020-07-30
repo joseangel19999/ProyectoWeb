@@ -4,52 +4,59 @@ if ($peticionAjax) {
 } else {
 	require_once "./core/mainModel.php";
 }
+require_once "conexionBd.php";
 require_once "../vo/objMototaxi.php";
 class mototaxiteModelo extends mainModel
 {
 	protected function agregar_Mototaxi($datos)
 	{
+		$conectarBd = Conexion::getInstancia();
 		$Id =    $datos->getId();
-		$Nombre= $datos->getMarca();
-		$Desc =  $datos->getPlaca();
-		$sql = mainModel::conectar()->prepare("INSERT INTO tbmototaxi(intIdMotoTaxi,vchMarca,vchPlaca) VALUES(:id,:marca,:palaca);");
-		$sql->bindParam(":id", $Id);
-		$sql->bindParam(":marca", $Nombre);
-		$sql->bindParam(":placa", $Desc);
+		$Nombre = $datos->getNombre();
+		$Marca= $datos->getMarca();
+		$Placa =  $datos->getPlaca();
+		$Ocupado='0';
+		$query="call SpInsertMoto(?,?,?,?,?)";
+		$sql =$conectarBd->prepare($query);
+        $sql->bindValue(1,$Id,PDO::PARAM_STR);
+        $sql->bindValue(2,$Marca,PDO::PARAM_STR);
+		$sql->bindValue(3,$Placa,PDO::PARAM_STR);
+		$sql->bindValue(4,$Nombre,PDO::PARAM_STR);
+		$sql->bindValue(5,$Ocupado,PDO::PARAM_STR);
 		$sql->execute();
 		return $sql;
 	}
 	protected function modifica_Mototaxi($datos)
 	{
+		$conectarBd = Conexion::getInstancia();
 		$Id =    $datos->getId();
-		$Nombre= $datos->getMarca();
-		$Desc =  $datos->getPlaca();
-		$sql = mainModel::conectar()->prepare("UPDATE tbmototaxi SET vchMarca=:marca,vchPlaca=:placa WHERE intIdMotoTaxi=:id");
-		$sql->bindParam(":id", $Id);
-		$sql->bindParam(":marca",$Nombre);
-		$sql->bindParam(":placa", $Desc);
+		$Nombre = $datos->getNombre();
+		$Marca= $datos->getMarca();
+		$Placa =  $datos->getPlaca();
+		$query="call SpUpdateMoto(?,?,?,?)";
+		$sql =$conectarBd->prepare($query);
+        $sql->bindValue(1,$Id,PDO::PARAM_STR);
+        $sql->bindValue(2,$Marca,PDO::PARAM_STR);
+		$sql->bindValue(3,$Nombre,PDO::PARAM_STR);
+		$sql->bindValue(4,$Placa,PDO::PARAM_STR);
 		$sql->execute();
 		return $sql;
 	}
 	protected function eliminar_Mototaxi($datos)
 	{
+		$conectarBd = Conexion::getInstancia();
 		$Id = $datos->getId();
-		$sql = mainModel::conectar()->prepare("DELETE FROM tbmototaxi WHERE intIdMotoTaxi=:id");
-		$sql->bindParam(":id",$Id);
+		$query="call SpDeleteMoto(?)";
+		$sql =$conectarBd->prepare($query);
+		$sql->bindValue(1,$Id,PDO::PARAM_STR);
 		$sql->execute();
 		return $sql;
 	}
 	protected function consulta_Mototaxi()
 	{
-		$AreaT = array();
-		$sql = mainModel::conectar()->prepare("SELECT intIdMotoTaxi,vchMarca,vchPlaca FROM  tbmototaxi");
+		$sql = mainModel::conectar()->prepare("SELECT intIdMotoTaxi,vchNombre,vchMarca,vchPlaca FROM  tbmototaxi");
 		$sql->execute();
-		if ($sql) {
-			foreach ($sql as $row) {
-				$AreaT[] = $this->recordsetToUserObject($row);
-			}
-			return $AreaT;
-		}
+		return $sql;
 	}
 	private function recordsetToUserObject($row)
 	{

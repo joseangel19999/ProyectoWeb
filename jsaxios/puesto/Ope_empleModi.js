@@ -1,6 +1,6 @@
 import {ValidaFrm1} from "../validar/validacion.js";
 (()=>{
-    var serverurl="jsaxios/puesto/Crud.php";
+    var UrlPeticionesAjax="ajax/puestosAjax.php";
     var app = new Vue({
    el:'#AppModiE',
    data:{
@@ -22,7 +22,7 @@ import {ValidaFrm1} from "../validar/validacion.js";
             cancelButtonColor: '#F44336',
             confirmButtonText: ' OK...'
          }).then(function () {
-            window.location.href="http://localhost/pet/PET/puestolist";
+            window.location.href="http://localhost/ProyectMoto/Moto-Taxi/puestolist";
         });
        },
         ConvertFormData:function(id){
@@ -32,8 +32,8 @@ import {ValidaFrm1} from "../validar/validacion.js";
         formato.append('NombreP',this.NombreP);
         formato.append('SalarioP',this.SalarioP);
         formato.append('DescripcionP',this.DescripcionP);
-        formato.append('Opc',"4");
-        axios.post(serverurl,formato).then(function(response){
+        formato.append('Opc',"2");
+        axios.post(UrlPeticionesAjax,formato).then(function(response){
             if(response.data=='1'){
              _this.Msconfirmacion();
             }

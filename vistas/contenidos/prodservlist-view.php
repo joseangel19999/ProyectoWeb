@@ -1,6 +1,6 @@
 <div class="container-fluid">
 		<div class="page-header">
-			<div class="text-t full-box text-uppercase">CATALOGO DE PRODUCTOS/SERVICIOS</div>
+			<div class="text-t full-box text-uppercase">CATALOGO DE EMPLEADOS</div>
 			</div>
 		</div>
 
@@ -24,7 +24,7 @@
 		<div class="container-fluid" id="AppProd">
 			<div class="panel panel-success">
 				<div class="panel-heading">
-					<h3 class="panel-title"><i class="zmdi zmdi-format-list-bulleted ico"></i> &nbsp; LISTA DE PRODUCTOS/SERVICIOS</h3>
+					<h3 class="panel-title"><i class="zmdi zmdi-format-list-bulleted ico"></i> &nbsp; LISTA DE EMPLEADOS</h3>
 				</div>
 				<div class="panel-body">
 					<div class="table-responsive">
@@ -32,24 +32,30 @@
 							<thead>
 								<tr>
 									<th class="text-center">NOMBRE</th>
-									<th class="text-center">PRECIO</th>
-									<th class="text-center">DESCRIPCION</th>
+									<th class="text-center">APELLIDOS</th>
+									<th class="text-center">CORREO</th>
+									<th class="text-center">TELEFONO</th>
+									<th class="text-center">AREA DE T.</th>
+									<th class="text-center">PUESTO</th>
 									<th class="text-center">A. DATOS</th>
 									<th class="text-center">ELIMINAR</th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr v-for="(Prod,index) in ListaProd">
-									<td>{{Prod.vchNombre}}</td>
-									<td>$: {{Prod.fltPrecio}}.00</td>
-									<td>{{Prod.vchDescripcion}}</td>
+									<td>{{Prod.vchNombreP}}</td>
+									<td>{{Prod.vchApellidosP}}</td>
+									<td>{{Prod.vchCorreo}}</td>
+									<td>{{Prod.vchTelefono}}</td>
+									<td>{{Prod.vchNomArea}}</td>
+									<td>{{Prod.vchNomPuesto}}</td>
 									<td>
 										<button v-on:click="Modi(index)"   class="btn btn-success btn-raised btn-xs">
 											<i class="zmdi zmdi-refresh ico"></i>
 										</button>
 									</td>
 									<td>
-											<button  v-on:click="Eliminar(Prod.vchIdproducto)"    class="btn btn-danger btn-raised btn-xs">
+											<button  v-on:click="Eliminar(Prod.intIdEmpleado)"    class="btn btn-danger btn-raised btn-xs">
 												<i class="zmdi zmdi-delete ico"></i>
 											</button>
 									</td>

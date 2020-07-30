@@ -1,12 +1,19 @@
 <?php
 if ($peticionAjax) {
 	require_once "../modelo/modeloArea.php";
+	require_once "../modelo/conexionBd.php";
 } else {
 	require_once "./modelo/modeloArea.php";
+	require_once "./modelo/conexionBd.php";
 }
 require_once "../vo/objectArea.php";
+
 class areaControlador extends areaModelo
 {
+	function __construct()
+	{
+		parent::__construct(Conexion::getInstancia());
+	}
 	public function agregar_area_controlador(){
 		$ObjArea = new AreaTrabajo();
 		$ObjArea->setId(mainModel::limpar_cadena($_POST['Id']));
@@ -44,10 +51,17 @@ class areaControlador extends areaModelo
 		}
 		return $Res;
 	}
-	public function consulta_areaTrabajo(){
+	public function consulta_areaTrabajo_controlador(){
 		$datos=array();
 		$datos= areaModelo::consulta_areaTrabajo();
-		var_dump($datos[0]);
+		if ($datos){
+			$i=0;
+			foreach ($datos as $row) {
+				$rowdata[$i]=$row;
+				$i++;
+			}
+			return $rowdata;
+		}
 	}
 	
 }

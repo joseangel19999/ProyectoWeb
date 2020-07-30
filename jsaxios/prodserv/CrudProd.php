@@ -1,61 +1,114 @@
 <?php
-   $conexion = new mysqli("localhost","root","","bdmototaxi");
-   $Opc=$_POST['Opc'];
-   $i=0;
-   $opcion=0;
-   switch($Opc){
-       case 2:
-            $query2="call sp_conProd();";
-            $stmt=$conexion->prepare($query2);
-            $stmt->execute();
-            $res=$stmt->get_result();
-            while($fila=mysqli_fetch_assoc($res)){
-                $rowdata[$i]=$fila;
-                $i++;
-            }
-           echo json_encode($rowdata);
-       break;
-       case 5:
-            $query2="call SpSelectPuestoEmp();";
-            $stmt=$conexion->prepare($query2);
-            $stmt->execute();
-            $res=$stmt->get_result();
-            while($fila=mysqli_fetch_assoc($res)){
-                $rowdata[$i]=$fila;
-                $i++;
-            }
-            echo json_encode($rowdata);
+$conexion = new mysqli("localhost", "root", "", "bdmototaxi");
+$Opc = $_POST['Opc'];
+$i = 0;
+$opcion = 0;
+switch ($Opc) {
+    case 2:
+        $query2 = "call SpSelectEmpleadodatos();";
+        $stmt = $conexion->prepare($query2);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        while ($fila = mysqli_fetch_assoc($res)) {
+            $rowdata[$i] = $fila;
+            $i++;
+        }
+        echo json_encode($rowdata);
         break;
-        case 8:
-            $query2="call SpSelectAreaEmpl();";
-            $stmt=$conexion->prepare($query2);
-            $stmt->execute();
-            $res=$stmt->get_result();
-            while($fila=mysqli_fetch_assoc($res)){
-                $rowdata[$i]=$fila;
-                $i++;
+    case 5:
+        $Idcate = $_POST['Idcate'];
+        $query2 = "call SpSelectPuestoEmp();";
+        $stmt = $conexion->prepare($query2);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        while ($fila = mysqli_fetch_assoc($res)) {
+            if ($fila['chIdPuesto'] != $Idcate) {
+                $rowdata[$i] = $fila;
             }
-            echo json_encode($rowdata);
+            $i++;
+        }
+        echo json_encode($rowdata);
         break;
-       case 3:
-           $Id=$_POST['Id'];
-          
-                $query2="call sp_conImagen(?);";
-                $stmt=$conexion->prepare($query2);
-                $stmt->bind_param("s",$Id);
-                $stmt->execute();
-                $res=$stmt->get_result();
-                while($fila=mysqli_fetch_assoc($res)){
-                    $rowdata[$i]=$fila;
-                    $i++;
-                }
-                $valor=implode(",",$rowdata);
-                echo $valor;
-                var_dump($valor);
-                //var_dump("dato "+$rowdata);
+    case 14:
+        $query2 = "call SpSelectPuestoEmp();";
+        $stmt = $conexion->prepare($query2);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        while ($fila = mysqli_fetch_assoc($res)) {
+            $rowdata[$i] = $fila;
+            $i++;
+        }
+        echo json_encode($rowdata);
+        break;
+    case 11:
+        $Idcate = $_POST['Idarea'];
+        $query2 = "call SpSelectPuestoEmp();";
+        $stmt = $conexion->prepare($query2);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        while ($fila = mysqli_fetch_assoc($res)) {
+            if ($fila['chIdPuesto'] != $Idcate) {
+                $rowdata[$i] = $fila;
+            }
+            $i++;
+        }
+        echo json_encode($rowdata);
+        break;
+    case 8:
+        $Idarea = $_POST['Idarea'];
+        $query2 = "call SpSelectAreaEmpl();";
+        $stmt = $conexion->prepare($query2);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        while ($fila = mysqli_fetch_assoc($res)) {
+            if ($fila['chIdArea'] != $Idarea) {
+                $rowdata[$i] = $fila;
+            }
+            $i++;
+        }
+        echo json_encode($rowdata);
+    break;
+    case 13:
+        $query2 = "call SpSelectAreaEmpl();";
+        $stmt = $conexion->prepare($query2);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        while ($fila = mysqli_fetch_assoc($res)) {
+            $rowdata[$i] = $fila;
+            $i++;
+        }
+        echo json_encode($rowdata);
+        break;
+    case 9:
+        $query2 = "call SpComboSocursal();";
+        $stmt = $conexion->prepare($query2);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        while ($fila = mysqli_fetch_assoc($res)) {
+            $rowdata[$i] = $fila;
+            $i++;
+        }
+        echo json_encode($rowdata);
+        break;
+    case 3:
+        $Id = $_POST['Id'];
 
-                //echo json_decode($res);
-                /*$query="SELECT * FROM tblproductos WHERE vchIdproducto=$Id";
+        $query2 = "call SpDeleteEmpleadoDatos(?);";
+        $stmt = $conexion->prepare($query2);
+        $stmt->bind_param("s", $Id);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        while ($fila = mysqli_fetch_assoc($res)) {
+            $rowdata[$i] = $fila;
+            $i++;
+        }
+        $valor = implode(",", $rowdata);
+        echo $valor;
+        var_dump($valor);
+        //var_dump("dato "+$rowdata);
+
+        //echo json_decode($res);
+        /*$query="SELECT * FROM tblproductos WHERE vchIdproducto=$Id";
                 $resultado=$conexion->query($query);
                 $var=$row=$resultado->fetch_assoc();
                 $nom2=$row['vchImagen'];
@@ -69,20 +122,50 @@
                     unlink($ruta);
                 }
                 echo $nom2;*/
-       break;
-       case 4:
-       $Curp=$_POST['Curp'];
-       $Nombre=$_POST['Nombre'];
-       $Apepa=$_POST['Apepa'];
-       $Apema=$_POST['Apema'];
-       $telefono=$_POST['Telefono'];
-   
-       $query="UPDATE tblsocios SET vchNombre='$Nombre',vchApepA='$Apepa',vchApeMa='$Apema',vchTelefono='$telefono' WHERE vchCurp='$Curp' ";
-           $resultado= $conexion->query($query);
-           if($resultado){
-               $opcion=1;
-           }
-           echo $opcion;
-       break;
-   }
-?>
+        break;
+    case 4:
+        $Curp = $_POST['Curp'];
+        $Nombre = $_POST['Nombre'];
+        $Apepa = $_POST['Apepa'];
+        $Apema = $_POST['Apema'];
+        $telefono = $_POST['Telefono'];
+        $query = "UPDATE tblsocios SET vchNombre='$Nombre',vchApepA='$Apepa',vchApeMa='$Apema',vchTelefono='$telefono' WHERE vchCurp='$Curp' ";
+        $resultado = $conexion->query($query);
+        if ($resultado) {
+            $opcion = 1;
+        }
+        echo $opcion;
+        break;
+    case 10:
+        $Id = $_POST['Id'];
+        $query2 = "call SpDatosEmplModi(?)";
+        $stmt = $conexion->prepare($query2);
+        $stmt->bind_param("i", $Id);
+        $stmt->execute();
+        $res = $stmt->get_result();
+        while ($fila = mysqli_fetch_assoc($res)) {
+            $rowdata[$i] = $fila;
+            $i++;
+        }
+        echo json_encode($rowdata);
+        break;
+    case 12:
+        $IdEmp = $_POST['IdEmp'];
+        $Nombre = $_POST['Nombre'];
+        $Apellidos = $_POST['Apellidos'];
+        $Telefono = $_POST['Telefono'];
+        $Direccion = $_POST['Direccion'];
+        $Correo = $_POST['Correo'];
+        $Usuario = $_POST['Usuario'];
+        $Password = $_POST['Password1'];
+        $Cate = $_POST['CategoriaPuesto'];
+        $CategoriaArea = $_POST['CategoriaArea'];
+        $CategoriaSocursal = $_POST['CategoriaSocursal'];
+        $query2 = "call SpUpdateEmp(?,?,?,?,?,?,?,?,?,?,?);";
+        $stmt = $conexion->prepare($query2);
+        $stmt->bind_param("sssssssssss", $IdEmp, $Nombre, $Apellidos, $Telefono, $Direccion, $Correo, $CategoriaSocursal, $Cate, $CategoriaArea, $Usuario, $Password);
+        $stmt->execute();
+        $ok = $stmt->affected_rows;
+        echo json_encode($ok);
+        break;
+}

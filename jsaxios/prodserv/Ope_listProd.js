@@ -1,4 +1,5 @@
 (()=>{
+    var UrlPeticionesAjax="ajax/EmpleadoAjax.php";
     var app = new Vue({
    el:'#AppProd',
    data:{
@@ -21,7 +22,7 @@
                 cancelButtonColor: '#F44336',
                 confirmButtonText: ' OK...'
             }).then(function () {
-                window.location.href="http://localhost/pet/PET/prodservlist";
+                window.location.href="http://localhost/ProyectMoto/Moto-Taxi/prodservlist";
             });
        },
         Eliminar:function(id){
@@ -29,13 +30,11 @@
             var confirmar=confirm("¡ESTAS SEGURO DE ELIMINAR ¡");
             if(confirmar==true){
                 let formato= new FormData();
-                let serverurl="jsaxios/prodserv/CrudProd.php";
                 let _this=this;
                 formato.append("Opc",'3');
                 formato.append("Id",id);
-                axios.post(serverurl,formato).then(function(response){
-                    console.log(response.data);
-                    //_this.MsConfirmacion();
+                axios.post(UrlPeticionesAjax,formato).then(function(response){
+                    _this.MsConfirmacion();
                 }).catch(function(error){
                     alert("Error "+error);
                 })
@@ -43,27 +42,27 @@
         },
         A_local:function(index){
             var data={
-                "Id":this.ListaProd[index].vchIdproducto,
-                "Nombre":this.ListaProd[index].vchNombre,
-                "Desc":this.ListaProd[index].vchDescripcion,
-                "Idcate":this.ListaProd[index].vchIdcategoria,
-                "Precio":this.ListaProd[index].fltPrecio,
-                "Imagen":this.ListaProd[index].vchImagen,
+                "Id":this.ListaProd[index].intIdEmpleado,
+                "Idcate":this.ListaProd[index].chIdPuesto,
+                "nomPuesto":this.ListaProd[index].vchNomPuesto,
+                "IdArea":this.ListaProd[index].chIdArea,
+                "nomArea":this.ListaProd[index].vchNomArea,
+                "IdSocursal":this.ListaProd[index].chIdSocursal,
+                "nomSocursal":this.ListaProd[index].vchNombre
             };
             localStorage.setItem("data",JSON.stringify(data));
-            window.location.href="http://localhost/pet/PET/prodservModifi";
+            window.location.href="http://localhost/ProyectMoto/Moto-Taxi/empleadoModifi";
+           
         },
         Modi:function(id){
             this.A_local(id);
         },
         CosultaDatos:function(){
             let formato= new FormData();
-            let serverurl="jsaxios/prodserv/CrudProd.php";
             let _this=this;
-            formato.append('Opc',"2");
-            axios.post(serverurl,formato).then(function(response){
+            formato.append('Opc','4');
+            axios.post(UrlPeticionesAjax,formato).then(function(response){
             _this.ListaProd=response.data;
-
             }).catch(function(error){
                 alert("Error "+error);
         })

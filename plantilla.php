@@ -22,10 +22,13 @@
 		//verifica si la pagina que decea navegar existe en la lista blanca para tener una seguridad
 		//de paginas habilitadas
 		$vistasR=$vt->obtener_vistas_controlador();
-		if($vistasR=="login" || $vistasR=="404" ):
+		if($vistasR=="login" || $vistasR=="404" || $vistasR=="ActualizarPass"):
 			if($vistasR=="login"){
 				require_once "./vistas/contenidos/login-view.php";
-			}else{
+			}else if($vistasR=='ActualizarPass'){
+				require_once "./vistas/contenidos/ActualizarPass-view.php";
+			}
+			else {
 				require_once "./vistas/contenidos/404-view.php";
 			}
 		else:
@@ -33,12 +36,21 @@
 			require_once "./controlador/loginControlador.php";
 			//verifica si se ha iniciado una session o no para forzar a cerrarla
 			$loginCTR=new LoginControlador();
+			$puesto=$_SESSION['puesto_smt'];
+			if($puesto=="Administrador"){
+				//<-- NavBar administrador -->
+				include "vistas/modulos/navlateral.php";
+			}
+			else if($puesto=="Recepcionista"){
+				//<-- NavBar recepcionista -->
+				include "vistas/modulos/navlateralRecepcionista.php";
+			}
 			if(!isset($_SESSION['token_smt']) || !isset($_SESSION['usuario_smt'])){
 				$loginCTR->forzarCierre_session_controlador();
+				
 			}
 			//incluye el modulo nagecacion lateral
-			//<-- NavBar -->
-			include "vistas/modulos/navlateral.php";
+			
 	?>
 	<!-- script -->
 	<script src="<?php  echo serverurl; ?>vistas/js/jquery-3.1.1.min.js"></script>
